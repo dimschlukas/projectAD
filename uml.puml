@@ -1,0 +1,31 @@
+@startuml
+
+class QMainWindow {
+  PyQt5 API
+}
+
+class Ui_main_ui {
+  + setupUi(..)
+  + retranslateUi(..)
+}
+
+note left: Die Klasse Ui_main_ui \nwird mithilfe des Qt Creator \ngrafisch erstellt und in die \nKlasse Main integriert.
+
+class Main {
+ + ui class Ui_main_ui
+ + __init__(..)
+ + keyPressEvent(..)
+ + resizeEvent(..)
+ + closeEvent(..)
+ + on_main_started(..)
+}
+
+QMainWindow <|-- Main
+Ui_main_ui - Main
+
+@enduml
+
+// https://useblocks.github.io/posts/daniel/diagramme_mit_plantuml/
+// http://plantuml.com/de/class-diagram
+
+

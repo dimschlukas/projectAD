@@ -13,15 +13,59 @@ note left: Die Klasse Ui_main_ui \nwird mithilfe des Qt Creator \ngrafisch erste
 
 class Main {
  + ui class Ui_main_ui
+ + menu class Menu
+ + toolbar class Toolbar
+ + statusbar class Statusbar
  + __init__(..)
  + keyPressEvent(..)
  + resizeEvent(..)
  + closeEvent(..)
  + on_main_started(..)
+ + contextMenuEvent(..)
 }
 
-QMainWindow <|-- Main
+class Menu {
+  + main_menu
+  + __init__(..)
+  + on_about()
+  + context_main_menu()
+}
+
+class Toolbar {
+  + main
+  + ..
+  + __init__(..)
+}
+
+
+class Statusbar {
+  + statusbar
+  + __init__(..)
+  + status_message(..)
+}
+
+class Config {
+  - _file_path
+  - _config
+  + style_dark
+  + demo_bool
+  + demo_int
+  + demo_float
+  + demo_string
+  + __init__(..)
+  + read()
+  + write()
+  {static} bool_to_string(..)
+}
+
+
+QMainWindow <|--- Main
 Ui_main_ui - Main
+Menu -- Main
+Toolbar -- Main
+Statusbar -- Main
+Config .. Main
+
 
 @enduml
 

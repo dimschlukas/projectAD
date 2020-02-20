@@ -7,7 +7,6 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
 
 from model.config import config
-from lib.sinusgenerator import Sinusgen
 
 
 class FftVisu:

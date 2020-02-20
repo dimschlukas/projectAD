@@ -54,6 +54,7 @@ class Config():
 
         finally:
             f.close()
+            return self.offset
 
     def write(self):
         try:

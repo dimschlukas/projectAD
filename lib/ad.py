@@ -27,10 +27,12 @@ class AnalogDiscovery:
 
         if cdevices.value == 0:
             print("no device available")
-            quit()
+            error = 'Verbindung zum Analog Discovery fehlgeschlagen.'
+            return error
         if self.hdwf.value == hdwfNone.value:
             print("failed to open device")
-            quit()
+            error = 'Analog Discovery wird von einem anderem Prozess verwendet.'
+            return error
 
     def close(self):
         self.dwf.FDwfAnalogOutReset(self.hdwf, self.channel)

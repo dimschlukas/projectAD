@@ -3,7 +3,7 @@ import time
 
 from PyQt5.QtCore import QSize, QTimer, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, QMessageBox
 
 import add_ons.style
 from add_ons.menu import Menu
@@ -19,6 +19,8 @@ import numpy as np
 from lib.sinusgenerator import Sinusgen
 from lib.ad import AnalogDiscovery
 from lib.fft import Fft
+
+from add_ons.messagebox import MessageBox
 
 
 # 4k Display mit hoher DPI-Auflösung
@@ -40,7 +42,7 @@ class Main(QMainWindow):
         self.move(300, 300)
         # self.showMaximized()
 
-        self.menu = Menu(self)
+        self.menu = Menu(self, self.ui)
         self.toolbar = Toolbar(self)
         self.statusbar = Statusbar(self)
 
@@ -49,6 +51,7 @@ class Main(QMainWindow):
         self.ui.sb_abs.setValue(int(config.periods))
         self.ui.le_factor.setText(str(config.factor))
         self.ui.le_samples.setText(str(config.samples))
+        self.adjust_samples()
 
         # Funktionszuordnung
         self.ui.bn_add.clicked.connect(self.add_sinus)
@@ -60,19 +63,14 @@ class Main(QMainWindow):
         self.ui.bn_start_measure.clicked.connect(self.start_measure)
         self.ui.bn_cancle_measure.clicked.connect(self.stop_measure)
 
+        # Plots
         self.signalgen_matplot = SignalgenVisu(self)
         self.fft_matplot = FftVisu(self)
 
-
     def start_measure(self):
         # run thread
-        run_thread = RunThread_fft(self.zeit, self.signal, self.fft_matplot, parent=self)
-        run_thread.start_thread()
-        run_thread = RunThread_Progressbar(self.zeit, self.ui, parent=self)
-        run_thread.start_thread()
-
-
-
+        run_fft_thread = RunThread_fft(self.zeit, self.signal, self.samples, self.fft_matplot, self, self.ui, parent=self)
+        run_fft_thread.start_thread()
 
     def stop_measure(self):
         self.run_thread.stop()
@@ -94,19 +92,25 @@ class Main(QMainWindow):
 
     def generate_sinus(self):
         if self.ui.table_sinus.rowCount() > 0:
-            f = []
-            a = []
-            p = []
+            self.f = []
+            self.a = []
+            self.p = []
             for i in range(self.ui.table_sinus.rowCount()):
-                f.append(float(self.ui.table_sinus.item(i, 0).text()))
-                a.append(float(self.ui.table_sinus.item(i, 1).text()))
-                p.append(float(self.ui.table_sinus.item(i, 2).text()))
-            offset = float(self.ui.le_offset.text())
-            asp = self.ui.sb_abs.value()
-            factor = float(self.ui.le_factor.text())
-            samples = int(self.ui.le_samples.text())
+                self.f.append(float(self.ui.table_sinus.item(i, 0).text()))
+                self.a.append(float(self.ui.table_sinus.item(i, 1).text()))
+                self.p.append(float(self.ui.table_sinus.item(i, 2).text()))
+            self.offset = float(self.ui.le_offset.text())
+            self.asp = self.ui.sb_abs.value()
+            self.factor = float(self.ui.le_factor.text())
+            self.samples = int(self.ui.le_samples.text())
 
-            sinusgen = Sinusgen(frequencies=f, amplitudes=a, phases=p, n_sp=samples, asp=asp, offset=offset, factor=factor)
+            sinusgen = Sinusgen(frequencies=self.f,
+                                amplitudes=self.a,
+                                phases=self.p,
+                                n_sp=self.samples,
+                                asp=self.asp,
+                                offset=self.offset,
+                                factor=self.factor)
             self.zeit, self.signal, self.subsinus = sinusgen.calc()
 
             self.signalgen_matplot.plot.zeit = self.zeit
@@ -166,31 +170,36 @@ class Main(QMainWindow):
 
 
 class RunThread_fft(QThread):  # http://doc.qt.io/qt-5/qthread.html
-    signal_counter = pyqtSignal(int)  # define new Signal
 
-    def __init__(self, zeit, signal, fft_matplot, parent=None):
+    def __init__(self, zeit, signal, samples, fft_matplot, main, ui, parent=None):
         super().__init__(parent)
         self.zeit = zeit
         self.signal = signal
+        self.samples = samples
         self.fft_matplot = fft_matplot
-        # self.fft_matplot = FftVisu(main_window)
+        self.main = main
+        self.ui = ui
 
     def run(self):
         ad = AnalogDiscovery()
-        ad.open()
-        ad.create_custom_waveform(self.signal, self.zeit[-1])
-        ad.collect_data()
-        ch1, ch2, = ad.read_data()
+        error = ad.open()
+        run_progressbar_thread = RunThread_Progressbar(self.zeit, self.ui, error, parent=self.main)
+        run_progressbar_thread.start_thread()
+        if error != None:
+            print(error)
+            QMessageBox.about(self.main, 'ERROR: Analog Discovery 2', error)
+        else:
+            ad.create_custom_waveform(self.signal, self.zeit[-1], self.samples)
+            ad.collect_data()
+            ch1, ch2, = ad.read_data()
+            fft = Fft(self.zeit, ch2, fenstermethode=None, interpolatemethode=None, fmax=200)
+            self.x, self.y, self.freq, self.spec = fft.calc()
+            self.fft_matplot.plot.x = self.x
+            self.fft_matplot.plot.y = self.y
+            self.fft_matplot.plot.fft_freq = self.freq
+            self.fft_matplot.plot.fft_spect = self.spec
+            self.fft_matplot.plot.update_complete()
         ad.close()
-
-        fft = Fft(self.zeit, ch2, fenstermethode=None, interpolatemethode='linear', fmax=200)
-        x, y, freq, spec = fft.calc()
-
-        self.fft_matplot.plot.x = x
-        self.fft_matplot.plot.y = y
-        self.fft_matplot.plot.fft_freq = freq
-        self.fft_matplot.plot.fft_spect = spec
-        self.fft_matplot.plot.update_complete()
 
     def start_thread(self):
         print('starting thread...')
@@ -201,19 +210,24 @@ class RunThread_fft(QThread):  # http://doc.qt.io/qt-5/qthread.html
         self.terminate()
 
 class RunThread_Progressbar(QThread):  # http://doc.qt.io/qt-5/qthread.html
-    signal_counter = pyqtSignal(int)  # define new Signal
 
-    def __init__(self, zeit, ui, parent=None):
+    def __init__(self, zeit, ui, error, parent=None):
         super().__init__(parent)
         self.zeit = zeit
         self.ui = ui
+        self.error = error
 
     def run(self):
-        self.ui.progressBar.setTextVisible(False)
-        for i in range(0, 101, 1):
-            time.sleep(self.zeit[-1]/100)
-            self.ui.progressBar.setValue(i)
-        self.ui.progressBar.setTextVisible(True)
+        if self.error != None:
+            self.ui.progressBar.setFormat('ERROR')
+            self.ui.progressBar.setTextVisible(True)
+        else:
+            self.ui.progressBar.setTextVisible(False)
+            for i in range(0, 101, 1):
+                time.sleep(self.zeit[-1]/100)
+                self.ui.progressBar.setValue(i)
+                self.ui.progressBar.setFormat('Done')
+            self.ui.progressBar.setTextVisible(True)
 
     def start_thread(self):
         print('starting thread...')
@@ -236,7 +250,7 @@ def except_hook(cls, exception, traceback):
 if __name__ == '__main__':
     sys.excepthook = except_hook
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('assets/icon/abbts.ico'))
+    app.setWindowIcon(QIcon('assets/icon/icon.png'))
     add_ons.style.set_style(app)
     main = Main()
     main.show()

@@ -58,11 +58,17 @@ class CsvReadWrite():
             writer.writerow(row)
 
         for i in range(0, np.shape(self.data_np)[1]):
-            row = ['{:1.3f}'.format(self.data_np[n, i])
-                   for n in range(0, np.shape(self.data_np)[0], 1)]
+            row = [self.display(self.data_np[n, i]) for n in range(0, np.shape(self.data_np)[0], 1)]
             writer.writerow(row)
 
         f.close()
+
+    def display(self, a):
+        try:
+            return "{: 1.3f}".format(float(a))
+        except:
+            return a
+
 
     def print_data_info(self):
         print('---------------------------------')

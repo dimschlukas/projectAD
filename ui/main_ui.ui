@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1206</width>
-    <height>1000</height>
+    <width>1417</width>
+    <height>1374</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,8 +20,91 @@
    <string>windowTitle</string>
   </property>
   <widget class="QWidget" name="central_widget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout_7">
+    <item row="1" column="0" colspan="9">
+     <layout class="QGridLayout" name="FftPlot"/>
+    </item>
+    <item row="9" column="4">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="5">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>FFT Zoom</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="3">
+     <widget class="QCheckBox" name="cb_fft_ch2">
+      <property name="text">
+       <string>CH2</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="2">
+     <widget class="QCheckBox" name="cb_fft_ch1">
+      <property name="text">
+       <string>CH1</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="7">
+     <widget class="Line" name="line_3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <layout class="QHBoxLayout" name="FftPlotToolbar">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
+     </layout>
+    </item>
+    <item row="9" column="8" alignment="Qt::AlignRight">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="textVisible">
+       <bool>false</bool>
+      </property>
+      <property name="format">
+       <string>Done</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="9">
      <widget class="QWidget" name="widget" native="true">
       <property name="minimumSize">
        <size>
@@ -284,61 +367,32 @@
       </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
+    <item row="9" column="6">
+     <widget class="QSlider" name="hs_fft_slider">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
       </property>
-      <widget class="QWidget" name="FFT_tab">
-       <attribute name="title">
-        <string>FFT</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_7">
-        <item row="1" column="3" alignment="Qt::AlignRight|Qt::AlignBottom">
-         <widget class="QPushButton" name="bn_save_fft">
-          <property name="text">
-           <string>Speichern</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="4">
-         <layout class="QGridLayout" name="FftPlot"/>
-        </item>
-        <item row="1" column="1">
-         <layout class="QHBoxLayout" name="FftPlotToolbar"/>
-        </item>
-        <item row="1" column="2">
-         <widget class="QProgressBar" name="progressBar">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="value">
-           <number>0</number>
-          </property>
-          <property name="textVisible">
-           <bool>false</bool>
-          </property>
-          <property name="format">
-           <string>Done</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="Bode_tab">
-       <attribute name="title">
-        <string>Bodediagramm</string>
-       </attribute>
-      </widget>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
      </widget>
     </item>
    </layout>

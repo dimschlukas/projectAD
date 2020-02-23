@@ -23,10 +23,16 @@ class Config():
         self.periods = 1
         self.factor = 1.00
         self.samples = 4096
-        self.frequency = 1.00
-        self.amplitude = 1.00
-        self.phase = 0.00
+        self.default_frequency = 1.00
+        self.default_amplitude = 1.00
+        self.default_phase = 0.00
 
+        # [sinus]
+        self.frequencies = 1.00
+        self.amplitudes = 1.00
+        self.phases = 0.00
+
+        self.row_count = 0
         self._callback_functions_update = []
 
         self.read()
@@ -45,9 +51,21 @@ class Config():
             self.periods = self._config.getint('sinusgen_defaults', 'periods')
             self.factor = self._config.getfloat('sinusgen_defaults', 'factor')
             self.samples = self._config.getint('sinusgen_defaults', 'samples')
-            self.frequency = self._config.getfloat('sinusgen_defaults', 'frequency')
-            self.amplitude = self._config.getfloat('sinusgen_defaults', 'amplitude')
-            self.phase = self._config.getfloat('sinusgen_defaults', 'phase')
+            self.default_frequency = self._config.getfloat('sinusgen_defaults', 'frequency')
+            self.default_amplitude = self._config.getfloat('sinusgen_defaults', 'amplitude')
+            self.default_phase = self._config.getfloat('sinusgen_defaults', 'phase')
+
+            # [sinus]
+            self.frequencies = []
+            self.amplitudes = []
+            self.phases = []
+            self.row_count = len(self._config.options('sinus'))
+            for i in range(self.row_count):
+                data = self._config.get('sinus', str(i))
+                data = data.split(',')
+                self.frequencies.append(float(data[0]))
+                self.amplitudes.append(float(data[1]))
+                self.phases.append(float(data[2]))
 
         except Exception as e:
             print('Error _config read:', str(e))
@@ -70,9 +88,15 @@ class Config():
             self._config.set('sinusgen_defaults', 'periods', '{:d}'.format(self.periods))
             self._config.set('sinusgen_defaults', 'factor', '{:f}'.format(self.factor))
             self._config.set('sinusgen_defaults', 'samples', '{:d}'.format(self.samples))
-            self._config.set('sinusgen_defaults', 'frequency', '{:f}'.format(self.frequency))
-            self._config.set('sinusgen_defaults', 'amplitude', '{:f}'.format(self.amplitude))
-            self._config.set('sinusgen_defaults', 'phase', '{:f}'.format(self.phase))
+            self._config.set('sinusgen_defaults', 'default_frequency', '{:f}'.format(self.default_frequency))
+            self._config.set('sinusgen_defaults', 'default_amplitude', '{:f}'.format(self.default_amplitude))
+            self._config.set('sinusgen_defaults', 'default_phase', '{:f}'.format(self.default_phase))
+
+            # [sinus]
+            self._config.remove_section('sinus')
+            self._config.add_section('sinus')
+            for i in range(self.row_count):
+                self._config.set('sinus', str(i), '{:f},{:f},{:f}'.format(self.frequencies[i], self.amplitudes[i], self.phases[i]))
 
             self._config.write(f)
 

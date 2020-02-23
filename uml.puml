@@ -17,6 +17,17 @@ class Main {
  + toolbar class Toolbar
  + statusbar class Statusbar
  + __init__(..)
+ + start_measure()
+ + stop_measure()
+ + adjust_samples()
+ + fft_slider()
+ + view_subsinus()
+ + view_ch1()
+ + view_ch2()
+ + add_sinus()
+ + delete_sinus()
+ + delete_all_sinus()
+ + generate_sinus()
  + keyPressEvent(..)
  + resizeEvent(..)
  + closeEvent(..)
@@ -28,6 +39,12 @@ class Menu {
   + main_menu
   + __init__(..)
   + on_about()
+  + simulation()
+  + load_config()
+  + save_config()
+  + save_fft_plot_function()
+  + save_fft_csv_function()
+  + credits()
   + context_main_menu()
 }
 
@@ -36,7 +53,6 @@ class Toolbar {
   + ..
   + __init__(..)
 }
-
 
 class Statusbar {
   + statusbar
@@ -48,23 +64,150 @@ class Config {
   - _file_path
   - _config
   + style_dark
-  + demo_bool
-  + demo_int
-  + demo_float
-  + demo_string
+  + offset
+  + periods
+  + factor
+  + samples
+  + default_frequency
+  + default_amplitude
+  + default_phase
+  + frequencies
+  + amplitudes
+  + phases
   + __init__(..)
   + read()
   + write()
+  + callback_update()
+  + register_callback_update()
   {static} bool_to_string(..)
 }
 
+class AnalogDiscovery {
+  + channel
+  + ch1
+  + ch2
+  + serialnumber
+  + __init__(..)
+  + open()
+  + close()
+  + create_custom_waveform()
+  + collect_data()
+  + read_data()
+}
 
+class Sinusgen {
+  + frequencies
+  + amplitudes
+  + phases
+  + n_sp
+  + asp
+  + offset
+  + factor
+  + time
+  + signal
+  + sinus
+  + __init__(..)
+  + calc()
+}
+
+class SignalgenVisu {
+  + zeit
+  + signal
+  + subsinus
+  + subsinus_visible
+  + __init__(..)
+  + plot.__init__(..)
+  + plot.update_complete()
+  + plot.subplots_adjust()
+  + plot.legend()
+}
+
+class FftVisu {
+  + x_ch1
+  + y_ch1
+  + fft_freq_ch1
+  + fft_spect_ch1
+  + x_ch2
+  + y_ch2
+  + fft_freq_ch2
+  + fft_spect_ch2
+  + ch1
+  + ch2
+  + xmax
+  + __init__(..)
+  + plot.__init__(..)
+  + plot.update_complete()
+  + plot.subplots_adjust()
+  + plot.legend()
+}
+
+class Fft {
+  - __x = __x
+  - __y = __y
+  - __fmax = fmax
+  + fenstermethode
+  + interpolatemethode
+  + __init__(..)
+  + calc()
+  + stuetzstellen_anpassung()
+  + fensterfunktion()
+  + frequenzspektrum()
+  + plot()
+  + csv_export()
+}
+
+class CsvReadWrite{
+  + url_read
+  + url_write
+  + delimiter_read
+  + delimiter_write
+  + header
+  + data_np
+  + __init__(..)
+  + read()
+  + write()
+  + print_data_info()
+}
+
+class RunThread_fft{
+  + parent
+  + __init__(..)
+  + run()
+  + start_thread()
+  + stop()
+}
+
+class RunThread_Progressbar{
+  + fft_thread
+  + parent
+  + __init__(..)
+  + run()
+  + start_thread()
+  + stop()
+}
+
+Menu - Config
+Menu - AnalogDiscovery
+Menu - CsvReadWrite
+
+RunThread_fft -- RunThread_Progressbar
+RunThread_fft -- AnalogDiscovery
+Fft - RunThread_fft
+
+Main -- SignalgenVisu
+Main -- FftVisu
+Main - Sinusgen
+Main -- RunThread_fft
 QMainWindow <|--- Main
-Ui_main_ui - Main
+Ui_main_ui -- Main
 Menu -- Main
-Toolbar -- Main
-Statusbar -- Main
-Config .. Main
+Toolbar - Main
+Statusbar - Main
+
+Main . Config
+Config .. SignalgenVisu
+Config .. FftVisu
+Menu .. Config
 
 
 @enduml

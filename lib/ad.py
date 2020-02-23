@@ -20,7 +20,9 @@ class AnalogDiscovery:
     def open(self):
         # check for available devices and print
         cdevices = c_int()
+        self.serialnumber = create_string_buffer(64)
         self.dwf.FDwfEnum(c_int(0), byref(cdevices))
+        self.dwf.FDwfEnumSN(c_int(0), self.serialnumber)
         print("Number of Devices: " + str(cdevices.value))
 
         self.dwf.FDwfDeviceOpen(c_int(0), byref(self.hdwf))

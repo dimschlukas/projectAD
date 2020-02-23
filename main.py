@@ -1,7 +1,7 @@
 import sys
-import time
+import numpy as np
 
-from PyQt5.QtCore import QSize, QTimer, Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QSize, QTimer, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, QMessageBox
 
@@ -13,14 +13,10 @@ from ui.main_ui import Ui_main_ui
 
 # Eigene Imports
 from model.config import config
-from signalgen_matplotlib import SignalgenVisu
-from fft_matplotlib import FftVisu
-import numpy as np
+from lib.signalgen_matplotlib import SignalgenVisu
+from lib.fft_matplotlib import FftVisu
 from lib.sinusgenerator import Sinusgen
-from lib.ad import AnalogDiscovery
-from lib.fft import Fft
-
-from add_ons.messagebox import MessageBox
+from lib.runthread_fft import RunThread_fft
 
 
 # 4k Display mit hoher DPI-Auflösung
@@ -36,9 +32,9 @@ class Main(QMainWindow):
 
         self.ui = Ui_main_ui()
         self.ui.setupUi(self)
-        self.setWindowTitle('Template PyQt5')
-        self.setMinimumSize(QSize(400, 200))
-        self.resize(2000, 1200)
+        self.setWindowTitle('ProjectAD by Lukas Schmid')
+        self.setMinimumSize(QSize(1400, 800))
+        self.resize(1600, 1400)
         self.move(300, 300)
         # self.showMaximized()
 
@@ -47,6 +43,14 @@ class Main(QMainWindow):
         self.statusbar = Statusbar(self)
 
         # Defaultwerte laden
+        for i in range(self.ui.table_sinus.rowCount()):
+            self.ui.table_sinus.removeRow(i)
+        self.ui.table_sinus.removeRow(0)
+        for i in range(config.row_count):
+            self.ui.table_sinus.insertRow(i)
+            self.ui.table_sinus.setItem(i, 0, QTableWidgetItem(str(config.frequencies[i])))
+            self.ui.table_sinus.setItem(i, 1, QTableWidgetItem(str(config.amplitudes[i])))
+            self.ui.table_sinus.setItem(i, 2, QTableWidgetItem(str(config.phases[i])))
         self.ui.le_offset.setText(str(config.offset))
         self.ui.sb_abs.setValue(int(config.periods))
         self.ui.le_factor.setText(str(config.factor))
@@ -62,18 +66,24 @@ class Main(QMainWindow):
         self.ui.le_samples.editingFinished.connect(self.adjust_samples)
         self.ui.bn_start_measure.clicked.connect(self.start_measure)
         self.ui.bn_cancle_measure.clicked.connect(self.stop_measure)
+        self.ui.hs_fft_slider.valueChanged.connect(self.fft_slider)
+        self.ui.cb_fft_ch1.clicked.connect(self.view_ch1)
+        self.ui.cb_fft_ch2.clicked.connect(self.view_ch2)
 
         # Plots
         self.signalgen_matplot = SignalgenVisu(self)
         self.fft_matplot = FftVisu(self)
 
+        self.simulation = False
+
+        # Thread
+        self.run_fft_thread = RunThread_fft(parent=self)
+
     def start_measure(self):
-        # run thread
-        run_fft_thread = RunThread_fft(self.zeit, self.signal, self.samples, self.fft_matplot, self, self.ui, parent=self)
-        run_fft_thread.start_thread()
+        self.run_fft_thread.start_thread()
 
     def stop_measure(self):
-        self.run_thread.stop()
+        self.run_fft_thread.stop()
 
     def adjust_samples(self):
         # Runde auf die nächste Zweierpotenz auf
@@ -82,6 +92,11 @@ class Main(QMainWindow):
             next = 2 ** (int(np.log2(num))+1)
             self.ui.le_samples.setText(str(next))
 
+    def fft_slider(self):
+        self.fft_matplot.plot.xmax = self.ui.hs_fft_slider.value()
+        self.fft_matplot.plot.update_complete()
+
+
     def view_subsinus(self):
         if self.ui.cb_subsinus_visible.isChecked() == True:
             self.signalgen_matplot.plot.subsinus_visible = True
@@ -89,6 +104,41 @@ class Main(QMainWindow):
         else:
             self.signalgen_matplot.plot.subsinus_visible = False
             self.signalgen_matplot.plot.update_complete()
+
+    def view_ch1(self):
+        if self.ui.cb_fft_ch1.isChecked() == True:
+            self.fft_matplot.plot.ch1 = True
+            self.fft_matplot.plot.update_complete()
+        else:
+            self.fft_matplot.plot.ch1 = False
+            self.fft_matplot.plot.update_complete()
+
+    def view_ch2(self):
+        if self.ui.cb_fft_ch2.isChecked() == True:
+            self.fft_matplot.plot.ch2 = True
+            self.fft_matplot.plot.update_complete()
+        else:
+            self.fft_matplot.plot.ch2 = False
+            self.fft_matplot.plot.update_complete()
+
+    def add_sinus(self):
+        frequency = config.default_frequency
+        amplitude = config.default_amplitude
+        phase = config.default_phase
+        row_count = self.ui.table_sinus.rowCount()
+        self.ui.table_sinus.insertRow(row_count)
+        self.ui.table_sinus.setItem(row_count, 0, QTableWidgetItem(str(frequency)))
+        self.ui.table_sinus.setItem(row_count, 1, QTableWidgetItem(str(amplitude)))
+        self.ui.table_sinus.setItem(row_count, 2, QTableWidgetItem(str(phase)))
+
+    def delete_sinus(self):
+        self.ui.table_sinus.removeRow(self.ui.table_sinus.currentRow())
+
+    def delete_all_sinus(self):
+        self.ui.table_sinus.clearContents()
+        for i in range(self.ui.table_sinus.rowCount()):
+            self.ui.table_sinus.removeRow(i)
+        self.ui.table_sinus.removeRow(0)
 
     def generate_sinus(self):
         if self.ui.table_sinus.rowCount() > 0:
@@ -109,36 +159,18 @@ class Main(QMainWindow):
                                 phases=self.p,
                                 n_sp=self.samples,
                                 asp=self.asp,
-                                offset=self.offset,
+                                offset=0.0,
                                 factor=self.factor)
             self.zeit, self.signal, self.subsinus = sinusgen.calc()
+            self.signal = self.signal + self.offset
 
             self.signalgen_matplot.plot.zeit = self.zeit
             self.signalgen_matplot.plot.signal = self.signal
             self.signalgen_matplot.plot.subsinus = self.subsinus
             self.signalgen_matplot.plot.update_complete()
         else:
+            QMessageBox.about(self, 'ERROR: Sinus generieren', 'Es befinden sich keine Sinus Signale in der Liste.')
             print('Kein Sinus zum erzeugen')
-
-    def add_sinus(self):
-        # ToDO: get values from config file for default sinus
-        frequency = config.frequency
-        amplitude = config.amplitude
-        phase = config.phase
-        row_count = self.ui.table_sinus.rowCount()
-        self.ui.table_sinus.insertRow(row_count)
-        self.ui.table_sinus.setItem(row_count, 0, QTableWidgetItem(str(frequency)))
-        self.ui.table_sinus.setItem(row_count, 1, QTableWidgetItem(str(amplitude)))
-        self.ui.table_sinus.setItem(row_count, 2, QTableWidgetItem(str(phase)))
-
-    def delete_sinus(self):
-        self.ui.table_sinus.removeRow(self.ui.table_sinus.currentRow())
-
-    def delete_all_sinus(self):
-        self.ui.table_sinus.clearContents()
-        for i in range(self.ui.table_sinus.rowCount()):
-            self.ui.table_sinus.removeRow(i)
-        self.ui.table_sinus.removeRow(0)
 
     def keyPressEvent(self, event):
         """Event Erfassung und Auswertung der gedrückten Tasten"""
@@ -146,6 +178,19 @@ class Main(QMainWindow):
         # print(event.key())
         if event.key() == Qt.Key_Q:
             self.close()
+
+    def resizeEvent(self, *args):
+        """Event bei Grösenänderung des Anzeigefensters"""
+        super().resizeEvent(*args)
+        self.signalgen_matplot.plot.subplots_adjust()
+        self.fft_matplot.plot.subplots_adjust()
+
+    def closeEvent(self, *args):
+        """Event wird ausgeführt beim Beenden der GUI-Oberfläche"""
+        super().closeEvent(*args)
+
+    def on_main_started(self):
+        """Aufruf der Funktion erfolgt nach vollständiger Initialisierung."""
 
     def contextMenuEvent(self, event):
         """Event Kontextmenu (rechte Maustaste) mit Weiterleitung and die"""
@@ -156,86 +201,9 @@ class Main(QMainWindow):
         except Exception as e:
             print('contextMenuEvent:', e)
 
-    def resizeEvent(self, *args):
-        """Event bei Grösenänderung des Anzeigefensters"""
-        super().resizeEvent(*args)
-
-    def closeEvent(self, *args):
-        """Event wird ausgeführt beim Beenden der GUI-Oberfläche"""
-        super().closeEvent(*args)
-
-    def on_main_started(self):
-        """Aufruf der Funktion erfolgt nach vollständiger Initialisierung."""
-        pass
 
 
-class RunThread_fft(QThread):  # http://doc.qt.io/qt-5/qthread.html
 
-    def __init__(self, zeit, signal, samples, fft_matplot, main, ui, parent=None):
-        super().__init__(parent)
-        self.zeit = zeit
-        self.signal = signal
-        self.samples = samples
-        self.fft_matplot = fft_matplot
-        self.main = main
-        self.ui = ui
-
-    def run(self):
-        ad = AnalogDiscovery()
-        error = ad.open()
-        run_progressbar_thread = RunThread_Progressbar(self.zeit, self.ui, error, parent=self.main)
-        run_progressbar_thread.start_thread()
-        if error != None:
-            print(error)
-            QMessageBox.about(self.main, 'ERROR: Analog Discovery 2', error)
-        else:
-            ad.create_custom_waveform(self.signal, self.zeit[-1], self.samples)
-            ad.collect_data()
-            ch1, ch2, = ad.read_data()
-            fft = Fft(self.zeit, ch2, fenstermethode=None, interpolatemethode=None, fmax=200)
-            self.x, self.y, self.freq, self.spec = fft.calc()
-            self.fft_matplot.plot.x = self.x
-            self.fft_matplot.plot.y = self.y
-            self.fft_matplot.plot.fft_freq = self.freq
-            self.fft_matplot.plot.fft_spect = self.spec
-            self.fft_matplot.plot.update_complete()
-        ad.close()
-
-    def start_thread(self):
-        print('starting thread...')
-        self.start(QThread.NormalPriority)
-
-    def stop(self):
-        print('stopping thread...')
-        self.terminate()
-
-class RunThread_Progressbar(QThread):  # http://doc.qt.io/qt-5/qthread.html
-
-    def __init__(self, zeit, ui, error, parent=None):
-        super().__init__(parent)
-        self.zeit = zeit
-        self.ui = ui
-        self.error = error
-
-    def run(self):
-        if self.error != None:
-            self.ui.progressBar.setFormat('ERROR')
-            self.ui.progressBar.setTextVisible(True)
-        else:
-            self.ui.progressBar.setTextVisible(False)
-            for i in range(0, 101, 1):
-                time.sleep(self.zeit[-1]/100)
-                self.ui.progressBar.setValue(i)
-                self.ui.progressBar.setFormat('Done')
-            self.ui.progressBar.setTextVisible(True)
-
-    def start_thread(self):
-        print('starting thread...')
-        self.start(QThread.NormalPriority)
-
-    def stop(self):
-        print('stopping thread...')
-        self.terminate()
 
 def except_hook(cls, exception, traceback):
     """Fehlerausgabe in der Python-Konsole anstelle des Terminals."""

@@ -2,15 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ddb81d4-f295-48b5-a3f4-1c45b341c695" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/add_ons/messagebox.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/runthread_progressbar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/add_ons/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/add_ons/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fft_matplotlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/fft_matplotlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/add_ons/messagebox.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/ColorPix.exe" beforeDir="false" afterPath="$PROJECT_DIR$/lib/runthread_fft.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cPix.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/python_512_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fft_matplotlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fft_matplotlib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ad.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/csv_read_write.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/csv_read_write.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/configurator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/fft.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fft.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/config/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/model/config/config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/config/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/config/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signalgen_matplotlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/signalgen_matplotlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/main_ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/old_main_ui.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/old_main_ui.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uml.puml" beforeDir="false" afterPath="$PROJECT_DIR$/uml.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/widget_sinus/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/widget_sinus/ui/widget_history.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/widget_sinus/ui/widget_sinus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/widget_sinus/widget_sinus.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,21 +46,21 @@
   <component name="ProjectId" id="1Xr8aUioJ2yhXIq7yyrEi1kYWjm" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.statistic.project.settings" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD\lib" />
+      <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD_new\assets\icon" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD\lib" />
       <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD" />
       <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD_new\assets\icon" />
       <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD_new\assets" />
       <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD_new\widget_sinus" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD\lib" />
-      <recent name="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD_new\assets\icon" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -201,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581887844106</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add config, plot and csv handling with filedialog">
+      <created>1582231793980</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1582231793980</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,6 +242,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="switch to full template" />
     <MESSAGE value="add fft and threads" />
-    <option name="LAST_COMMIT_MESSAGE" value="add fft and threads" />
+    <MESSAGE value="add config, plot and csv handling with filedialog" />
+    <option name="LAST_COMMIT_MESSAGE" value="add config, plot and csv handling with filedialog" />
   </component>
 </project>

@@ -69,22 +69,28 @@ class Fft:
 
         fft_freq_total = np.linspace(0, 1 / delta_zeit, anzahl_neue_stellen)
 
-        # if fmax == None:
-        #     __fmax = int(np.ceil(anzahl_neue_stellen / 2))
-        # else:
-        #     if fmax > int(np.ceil(anzahl_neue_stellen / 2)):
-        #         print('fmax ist zu hoch')
-        #         __fmax = int(np.ceil(anzahl_neue_stellen / 2))
-        #     else:
-        #         for i in range(fmax):
-        #             if fft_spect_total[i] > fmax:
-        #                 __fmax = i
-        #                 break
+        if fmax is not None:
+            frequenz = (1/delta_zeit)/2
+            __fmax = ((self.anzahl_neue_stellen / 2)*fmax)/frequenz
 
-        __fmax = int(np.ceil(anzahl_neue_stellen / 2))
 
-        fft_freq = fft_freq_total[0:int(np.ceil(__fmax))]
-        fft_spect = fft_spect_total[0:int(np.ceil(__fmax))]
+            if __fmax > (self.anzahl_neue_stellen / 2):
+                print('Eingegebene Frequenz zu hoch')
+                __fmax = self.anzahl_neue_stellen /2
+            fft_freq = fft_freq_total[0:int(np.ceil(__fmax))]
+            fft_spect = fft_spect_total[0:int(np.ceil(__fmax))]
+        else:
+            __fmax = self.anzahl_neue_stellen / 2
+            for i in range(int(__fmax)):
+                if fft_spect_total[i] > 0.01:
+                    latest = i
+            if latest == None:
+                print('Amplituden < 0.01')
+                fft_freq = fft_freq_total[0:int(np.ceil(__fmax))]
+                fft_spect = fft_spect_total[0:int(np.ceil(__fmax))]
+            else:
+                fft_freq = fft_freq_total[0:latest+latest+10]
+                fft_spect = fft_spect_total[0:latest+latest+10]
 
         return fft_freq, fft_spect
 

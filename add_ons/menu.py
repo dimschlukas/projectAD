@@ -1,9 +1,10 @@
 import numpy as np
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMenuBar, QAction, QMenu, QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMenuBar, QAction, QMenu, QMainWindow, QFileDialog, QTableWidgetItem
 from model.config import config
 from lib.csv_read_write import CsvReadWrite
+from lib.ad import AnalogDiscovery
 
 class Menu():
     def __init__(self, main, ui):
@@ -40,19 +41,19 @@ class Menu():
         self.save_fft_plot = QAction(QIcon(''), '&Plot speichern', main)
         self.save_fft_plot.triggered.connect(self.save_fft_plot_function)
         self.fft_menu.addAction(self.save_fft_plot)
+        self.save_fft_plot.setEnabled(False)
         self.save_fft_csv = QAction(QIcon(''), '&CSV speichern', main)
         self.save_fft_csv.triggered.connect(self.save_fft_csv_function)
         self.fft_menu.addAction(self.save_fft_csv)
-
-
+        self.save_fft_csv.setEnabled(False)
 
 
         # Einstellungen
         self.settingsmenu = self.main_menu.addMenu('&Einstellungen')
 
-        self.options_button = QAction(QIcon('assets/icon/settings.svg'), '&Optionen', main)
-        self.options_button.triggered.connect(self.on_about)
-        self.settingsmenu.addAction(self.options_button)
+        self.simulation_button = QAction(QIcon(''), '&Simulations Modus', main, checkable=True)
+        self.simulation_button.triggered.connect(self.simulation)
+        self.settingsmenu.addAction(self.simulation_button)
 
         # Hilfe
         self.helpMenu = self.main_menu.addMenu('&?')
@@ -65,34 +66,66 @@ class Menu():
         self.credits_button.triggered.connect(self.credits)
         self.helpMenu.addAction(self.credits_button)
 
-
     def on_about(self):
-        QtWidgets.QMessageBox.about(self.main, 'Projekt AD',
-                                    'Analog Discovery 2 ansteuerung\n'
-                                    'mittels Python und QT\n'
-                                    ' \n'
-                                    '.\n'
-                                    'Lukas Schmid')
+        ad = AnalogDiscovery()
+        error = ad.open()
+        ad.close()
+        if error:
+            QtWidgets.QMessageBox.about(self.main, 'Projekt AD',
+                                        'Analog Discovery 2 ansteuerung\n'
+                                        'mittels Python und QT\n'
+                                        ' \n'
+                                        'Kein Analog Discovery verbunden.\n'
+                                        '\n by Lukas Schmid')
+        else:
+            sn = ad.serialnumber
+            QtWidgets.QMessageBox.about(self.main, 'Projekt AD',
+                                        'Analog Discovery 2 ansteuerung\n'
+                                        'mittels Python und QT\n'
+                                        ' \n'
+                                        'Analog Discovery verbunden: '+str(sn.value)+'\n'
+                                        '\n by Lukas Schmid')
+
+    def simulation(self):
+        if self.simulation_button.isChecked():
+            self.main.simulation = True
+            self.main.ui.progressBar.setFormat('SIMULATION')
+            self.main.ui.progressBar.setTextVisible(True)
+        else:
+            self.main.simulation = False
+            self.main.ui.progressBar.setTextVisible(False)
 
     def load_config(self):
+        self.ui.table_sinus.clearContents()
+        for i in range(self.ui.table_sinus.rowCount()):
+            self.ui.table_sinus.removeRow(i)
+        self.ui.table_sinus.removeRow(0)
         config.read()
+        for i in range(config.row_count):
+            self.ui.table_sinus.insertRow(i)
+            self.ui.table_sinus.setItem(i, 0, QTableWidgetItem(str(config.frequencies[i])))
+            self.ui.table_sinus.setItem(i, 1, QTableWidgetItem(str(config.amplitudes[i])))
+            self.ui.table_sinus.setItem(i, 2, QTableWidgetItem(str(config.phases[i])))
         self.ui.le_offset.setText(str(config.offset))
         self.ui.sb_abs.setValue(int(config.periods))
         self.ui.le_factor.setText(str(config.factor))
         self.ui.le_samples.setText(str(config.samples))
         self.main.adjust_samples()
-        QtWidgets.QMessageBox.about(self.main, 'Config',
-                                    'Config erfolgreich geladen')
+        QtWidgets.QMessageBox.about(self.main, 'Config', 'Config erfolgreich geladen')
 
     def save_config(self):
-        if self.ui.table_sinus.rowCount() > 0:
-            config.frequency = float(self.ui.table_sinus.item(0, 0).text())
-            config.amplitude = float(self.ui.table_sinus.item(0, 1).text())
-            config.phase = float(self.ui.table_sinus.item(0, 2).text())
-        else:
-            config.frequency = 1.0
-            config.amplitude = 1.0
-            config.phase = 0.0
+        config.row_count = self.ui.table_sinus.rowCount()
+        if config.row_count > 0:
+            f = []
+            a = []
+            p = []
+            for i in range(config.row_count):
+                f.append(float(self.ui.table_sinus.item(i, 0).text()))
+                a.append(float(self.ui.table_sinus.item(i, 1).text()))
+                p.append(float(self.ui.table_sinus.item(i, 2).text()))
+            config.frequencies = f
+            config.amplitudes = a
+            config.phases = p
         config.offset = float(self.ui.le_offset.text())
         config.periods = self.ui.sb_abs.value()
         config.factor = float(self.ui.le_factor.text())
@@ -108,21 +141,26 @@ class Menu():
         self.main.fft_matplot.plot.fig_base.savefig(filename[0])
 
     def save_fft_csv_function(self):
-        filename = QFileDialog.getSaveFileName(self.main, 'Speichere FFT CSV', 'FFT_data.txt', 'TXT (*.txt);;CSV (*.csv)')
-        if filename[0] == '':
+        filename = QFileDialog.getExistingDirectory(self.main, 'Speichere FFT CSV')
+        if filename == '':
             return
-        c = CsvReadWrite(url_write=filename[0])
-        c.header = ['t [s]', 'y [V]', 'f [Hz]', 'A [V]']
+        c = CsvReadWrite(url_write=filename + '/FFT_Zeitsignal.csv')
+        c.header = ['Zeit [s]', 'Spannung [V]']
         x = self.main.fft_matplot.plot.x
         y = self.main.fft_matplot.plot.y
-        freq = self.main.fft_matplot.plot.fft_freq
-        spect = self.main.fft_matplot.plot.fft_spect
-        for i in range(int(len(x)/2)):
-            freq = np.append(freq, '')
-            spect = np.append(spect, '')
-        data = x, y, freq, spect
+        data = x, y
         c.data_np = np.array(data)
         c.write(header_included=True)
+
+        c = CsvReadWrite(url_write=filename + '/FFT_Frequenzspektren.csv')
+        c.header = ['Frequenz [Hz]', 'Amplitude [V]']
+        freq = self.main.fft_matplot.plot.fft_freq
+        spect = self.main.fft_matplot.plot.fft_spect
+        data = freq, spect
+        c.data_np = np.array(data)
+        c.write(header_included=True)
+        QtWidgets.QMessageBox.about(self.main, 'CSV gespeichert',
+                                    'FFT_Zeitsignal.csv und FFT_Frequenzspektren.csv wurde unter folgendem ordner abgelegt:\n \n "' + filename + '"')
 
     def credits(self):
         QtWidgets.QMessageBox.about(self.main, 'Credits',
@@ -131,4 +169,11 @@ class Menu():
     def context_main_menu(self, event):
         menu = QMenu(self.main)
         menu.addAction(self.about_button)
+        menu.addAction(self.simulation_button)
+        menu.addAction(self.load_config_button)
+        menu.addAction(self.save_config_button)
+        menu.addAction(self.save_fft_plot)
+        menu.addAction(self.save_fft_csv)
+        menu.addAction(self.load_config_button)
+        menu.addAction(self.save_config_button)
         menu.exec_(event.globalPos())

@@ -201,6 +201,10 @@ class Main(QMainWindow):
         except Exception as e:
             print('contextMenuEvent:', e)
 
+
+
+
+
 def except_hook(cls, exception, traceback):
     """Fehlerausgabe in der Python-Konsole anstelle des Terminals."""
     sys.__excepthook__(cls, exception, traceback)
@@ -208,6 +212,8 @@ def except_hook(cls, exception, traceback):
 def except_hook(cls, exception, traceback):
     """Fehlerausgabe in der Python-Konsole anstelle des Terminals."""
     sys.__excepthook__(cls, exception, traceback)
+
+
 
 if __name__ == '__main__':
     sys.excepthook = except_hook

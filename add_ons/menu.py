@@ -145,20 +145,37 @@ class Menu():
         if filename == '':
             return
         c = CsvReadWrite(url_write=filename + '/FFT_Zeitsignal.csv')
-        c.header = ['Zeit [s]', 'Spannung [V]']
-        x = self.main.fft_matplot.plot.x
-        y = self.main.fft_matplot.plot.y
-        data = x, y
+        if self.main.fft_matplot.plot.ch1 and not self.main.fft_matplot.plot.ch2:
+            c.header = ['CH1 Zeit [s]', 'CH1 Spannung [V]']
+            data = self.main.fft_matplot.plot.x_ch1, self.main.fft_matplot.plot.y_ch1
+        elif self.main.fft_matplot.plot.ch2 and not self.main.fft_matplot.plot.ch1:
+            c.header = ['CH2 Zeit [s]', 'CH2 Spannung [V]']
+            data = self.main.fft_matplot.plot.x_ch2, self.main.fft_matplot.plot.y_ch2
+        elif self.main.fft_matplot.plot.ch1 and self.main.fft_matplot.plot.ch2:
+            c.header = ['CH1 Zeit [s]', 'CH1 Spannung [V]', 'CH2 Zeit [s]', 'CH2 Spannung [V]']
+            data = self.main.fft_matplot.plot.x_ch1, self.main.fft_matplot.plot.y_ch1, self.main.fft_matplot.plot.x_ch2, self.main.fft_matplot.plot.y_ch2
+        else:
+            QtWidgets.QMessageBox.about(self.main, 'CSV Zeitsignal',
+                                        'Keine Daten um Zeitsignal zu speichern.')
         c.data_np = np.array(data)
         c.write(header_included=True)
 
         c = CsvReadWrite(url_write=filename + '/FFT_Frequenzspektren.csv')
-        c.header = ['Frequenz [Hz]', 'Amplitude [V]']
-        freq = self.main.fft_matplot.plot.fft_freq
-        spect = self.main.fft_matplot.plot.fft_spect
-        data = freq, spect
+        if self.main.fft_matplot.plot.ch1 and not self.main.fft_matplot.plot.ch2:
+            c.header = ['CH1 Frequenz [Hz]', 'CH1 Amplitude [V]']
+            data = self.main.fft_matplot.plot.fft_freq_ch1, self.main.fft_matplot.plot.fft_spect_ch1
+        elif self.main.fft_matplot.plot.ch2 and not self.main.fft_matplot.plot.ch1:
+            c.header = ['CH2 Frequenz [Hz]', 'CH2 Amplitude [V]']
+            data = self.main.fft_matplot.plot.fft_freq_ch1, self.main.fft_matplot.plot.fft_spect_ch1
+        elif self.main.fft_matplot.plot.ch1 and self.main.fft_matplot.plot.ch2:
+            c.header = ['CH1 Frequenz [Hz]', 'CH1 Amplitude [V]', 'CH2 Frequenz [Hz]', 'CH2 Amplitude [V]']
+            data = self.main.fft_matplot.plot.fft_freq_ch1, self.main.fft_matplot.plot.fft_spect_ch1, self.main.fft_matplot.plot.fft_freq_ch2, self.main.fft_matplot.plot.fft_spect_ch2
+        else:
+            QtWidgets.QMessageBox.about(self.main, 'CSV Frequenzspektren',
+                                        'Keine Daten um Frequenzspektren zu speichern.')
         c.data_np = np.array(data)
         c.write(header_included=True)
+
         QtWidgets.QMessageBox.about(self.main, 'CSV gespeichert',
                                     'FFT_Zeitsignal.csv und FFT_Frequenzspektren.csv wurde unter folgendem ordner abgelegt:\n \n "' + filename + '"')
 

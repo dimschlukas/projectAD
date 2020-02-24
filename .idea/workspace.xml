@@ -1,31 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ddb81d4-f295-48b5-a3f4-1c45b341c695" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/runthread_progressbar.py" afterDir="false" />
+    <list default="true" id="6ddb81d4-f295-48b5-a3f4-1c45b341c695" name="Default Changelist" comment="improve resolution">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/Ansteuerung_AD_SDK.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/SWE_AD_final.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/SWE_Projekt_1_AD_01_00.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_AnalogDiscovery2_Power.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_AnalogDiscovery2_SystemMonitor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_AnalogDiscovery_Power.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_AnalogDiscovery_SystemMonitor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_DigitalDiscovery.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIO_ElectronicsExplorer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogImpedance_Analyzer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogImpedance_Compensation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogImpedance_Input.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogImpedance_Meter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogImpedance_ThinkSpeak.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogInDigitalIn_Acquisition.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Acquisition.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Logger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Record.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Record_Trigger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Record_Wave_Mono.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Record_int16.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Sample.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_ShiftScreen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogIn_Trigger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogNetwork_Analyzer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOutIn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOutIn_PlayRecord.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOutIn_Synchronization.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Custom.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Pattern.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Play.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Pulse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Sine.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Sweep.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/AnalogOut_Sync.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Device_Enumeration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Device_Info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Device_InfoEx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Device_Synchronization.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIO.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Acquisition.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Acquisition_8x100k.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Acquisition_8x256M.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Record.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Record_Compress.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Spi_Spy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Sync.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalIn_Trigger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_BinrayCounter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Clock.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Custom.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_CustomBus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Duty.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Phase.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Pins.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_Pulse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_ROM_Mux.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_ResetPattern.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/DigitalOut_SPI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Can.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_I2c.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_I2c_PmodAcl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_I2c_PmodGyro.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi_Dual.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi_Quad.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi_Siso.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi_Spy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Spi_Spy_DD.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Uart.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Digital_Uart_RX.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/Enumerate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/WaveForms SDK Reference Manual.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/dwf.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/WaveFormsSDK/dwfconstants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/base_signals.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/plot_oop.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vorgaben/plot_toolbox.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/add_ons/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/add_ons/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/add_ons/messagebox.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ColorPix.exe" beforeDir="false" afterPath="$PROJECT_DIR$/lib/runthread_fft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cPix.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/image/python_512_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fft_matplotlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fft_matplotlib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ad.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/configurator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/fft.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/config/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/model/config/config.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/config/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/config/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signalgen_matplotlib.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/signalgen_matplotlib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/main_ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/old_main_ui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/old_main_ui.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uml.puml" beforeDir="false" afterPath="$PROJECT_DIR$/uml.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widget_sinus/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/widget_sinus/ui/widget_history.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/widget_sinus/ui/widget_sinus.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/widget_sinus/widget_sinus.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -223,7 +282,21 @@
       <option name="project" value="LOCAL" />
       <updated>1582231793980</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add simulation mode, bugfixes,">
+      <created>1582494916904</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1582494916904</updated>
+    </task>
+    <task id="LOCAL-00005" summary="improve resolution">
+      <created>1582495184164</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1582495184164</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,6 +316,8 @@
     <MESSAGE value="switch to full template" />
     <MESSAGE value="add fft and threads" />
     <MESSAGE value="add config, plot and csv handling with filedialog" />
-    <option name="LAST_COMMIT_MESSAGE" value="add config, plot and csv handling with filedialog" />
+    <MESSAGE value="add simulation mode, bugfixes," />
+    <MESSAGE value="improve resolution" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve resolution" />
   </component>
 </project>

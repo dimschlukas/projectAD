@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ddb81d4-f295-48b5-a3f4-1c45b341c695" name="Default Changelist" comment="improve resolution">
+    <list default="true" id="6ddb81d4-f295-48b5-a3f4-1c45b341c695" name="Default Changelist" comment="bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vorgaben/Ansteuerung_AD_SDK.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Vorgaben/SWE_AD_final.mp4" beforeDir="false" />
@@ -81,10 +81,7 @@
       <change beforePath="$PROJECT_DIR$/Vorgaben/base_signals.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Vorgaben/plot_oop.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Vorgaben/plot_toolbox.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/add_ons/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/add_ons/menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/main_ui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_ui.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +102,7 @@
   <component name="ProjectId" id="1Xr8aUioJ2yhXIq7yyrEi1kYWjm" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/WaveFormsSDK" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.statistic.project.settings" />
   </component>
@@ -134,7 +131,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main.pyw (1)">
     <configuration name="ad" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="projectAD_new" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -219,7 +216,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main.pyw" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="main.pyw (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="projectAD_new" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -231,7 +228,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\dimsc\Google Drive\02_abbts\5. Semester\07_SWE\projectAD\main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.pyw" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -242,11 +239,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main.pyw (1)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.build_ui" />
         <item itemvalue="Python.fft" />
         <item itemvalue="Python.ad" />
-        <item itemvalue="Python.main.pyw" />
       </list>
     </recent_temporary>
   </component>
@@ -296,7 +293,35 @@
       <option name="project" value="LOCAL" />
       <updated>1582495184164</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add ch1 and/or ch2 plot/csv">
+      <created>1582570415123</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1582570415123</updated>
+    </task>
+    <task id="LOCAL-00007" summary="rename main.py to main.pyw">
+      <created>1582570450268</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1582570450268</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix typos">
+      <created>1582570560456</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1582570560456</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add video">
+      <created>1582570582739</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1582570582739</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -318,6 +343,10 @@
     <MESSAGE value="add config, plot and csv handling with filedialog" />
     <MESSAGE value="add simulation mode, bugfixes," />
     <MESSAGE value="improve resolution" />
-    <option name="LAST_COMMIT_MESSAGE" value="improve resolution" />
+    <MESSAGE value="add ch1 and/or ch2 plot/csv" />
+    <MESSAGE value="rename main.py to main.pyw" />
+    <MESSAGE value="fix typos" />
+    <MESSAGE value="add video" />
+    <option name="LAST_COMMIT_MESSAGE" value="add video" />
   </component>
 </project>

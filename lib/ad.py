@@ -1,7 +1,7 @@
 import math as m
 import cmath as cm
 from ctypes import *
-from WaveFormsSDK.dwfconstants import *
+from lib.WaveFormsSDK.dwfconstants import *
 import sys
 import numpy as np
 import copy
